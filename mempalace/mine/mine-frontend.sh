@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-FRONTEND_ROOT="/Users/lukebeach/REPOS/Thrive/frontend"
+[ -f "$HOME/.claude-setup/config.sh" ] && source "$HOME/.claude-setup/config.sh"
+FRONTEND_ROOT="${THRIVE_REPO:-$HOME/REPOS/Thrive}/frontend"
 TEMP_DIR=$(mktemp -d)
 trap "rm -rf $TEMP_DIR" EXIT
 

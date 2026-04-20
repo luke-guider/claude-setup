@@ -1,19 +1,22 @@
 #!/bin/bash
 set -e
 
+[ -f "$HOME/.claude-setup/config.sh" ] && source "$HOME/.claude-setup/config.sh"
+THRIVE_ROOT="${THRIVE_REPO:-$HOME/REPOS/Thrive}"
+
 echo "=== Mining all wings sequentially ==="
 echo ""
 
 echo "=== Step 1/3: Frontend (thrive-frontend) ==="
-/Users/lukebeach/.mempalace/mine-frontend.sh
+"$HOME/.mempalace/mine-frontend.sh"
 echo ""
 
 echo "=== Step 2/3: Guider ==="
-/Users/lukebeach/.mempalace/mine-guider.sh
+"$HOME/.mempalace/mine-guider.sh"
 echo ""
 
 echo "=== Step 3/3: Thrive backend ==="
-python3 -m mempalace mine /Users/lukebeach/REPOS/Thrive
+python3 -m mempalace mine "$THRIVE_ROOT"
 echo ""
 
 echo "=== All mines complete. Checking status ==="

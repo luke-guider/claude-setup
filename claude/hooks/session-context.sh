@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# Source per-machine config if present
+[ -f "$HOME/.claude-setup/config.sh" ] && source "$HOME/.claude-setup/config.sh"
+
 CWD="$(pwd)"
 CONTEXT_DIR="$HOME/.claude/context"
 BRANCH=$(git -C "$CWD" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
@@ -79,7 +82,7 @@ service_to_domain_thrive() {
 
 resolve_deps_thrive() {
   local svc="$1"
-  local graph="/Users/lukebeach/REPOS/Thrive/docs/service-graph.toml"
+  local graph="${THRIVE_REPO:-$HOME/REPOS/Thrive}/docs/service-graph.toml"
   [ ! -f "$graph" ] && return
 
   local safe
@@ -149,7 +152,7 @@ if [ "$WORKSPACE" = "thrive" ]; then
     if [ "$DOMAIN" = "mentoring" ]; then
       echo "Mentoring migrating from guider. Reference: mempalace_search(\"matching\", wing: \"guider\")"
     else
-      echo "Legacy mentoring platform at ~/REPOS/guider/platform"
+      echo "Legacy mentoring platform at ${GUIDER_REPO:-$HOME/REPOS/guider/platform}"
     fi
   else
     echo "# Working Context: Thrive (workspace root)"

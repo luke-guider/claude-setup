@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-GUIDER_ROOT="/Users/lukebeach/REPOS/guider/platform"
+[ -f "$HOME/.claude-setup/config.sh" ] && source "$HOME/.claude-setup/config.sh"
+GUIDER_ROOT="${GUIDER_REPO:-$HOME/REPOS/guider/platform}"
 TEMP_DIR=$(mktemp -d)
 trap "rm -rf $TEMP_DIR" EXIT
 
