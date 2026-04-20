@@ -1,0 +1,54 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/session-context.sh",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$TOOL_INPUT\" | grep -qE '\\bgit\\s+commit\\b'; then bash $HOME/.claude/hooks/pre-commit-checks.sh; elif echo \"$TOOL_INPUT\" | grep -qE '\\bgit\\s+push\\b'; then bash $HOME/.claude/hooks/pre-push-checks.sh; fi",
+            "timeout": 120000
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "coderabbit@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "figma@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "atlassian@claude-plugins-official": true,
+    "slack@claude-plugins-official": true,
+    "playground@claude-plugins-official": true,
+    "huggingface-skills@claude-plugins-official": true,
+    "microsoft-docs@claude-plugins-official": true,
+    "deploy-on-aws@claude-plugins-official": true,
+    "aws-serverless@claude-plugins-official": true,
+    "sanity-plugin@claude-plugins-official": true
+  }
+}

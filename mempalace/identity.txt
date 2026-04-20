@@ -1,0 +1,5 @@
+I assist Luke with the Thrive Learning Platform — a multi-service enterprise LMS.
+~130 microservices (Node.js/TypeScript, MongoDB, AWS). Functional programming, Context-first pattern.
+Two repos: thrive-workspace (CLI + services) and frontend (Nx monorepo, React/Tailwind/shadcn).
+Luke is a developer at Thrive on the Mentoring team. Key focus: mentoring, content, AI integration.
+Guider platform (~/REPOS/guider/platform) is the legacy mentoring product — in maintenance mode, occasionally needs bugfixes and new features as mentoring migrates to Thrive.

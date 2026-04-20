@@ -1,0 +1,12 @@
+{
+  "palace_path": "/Users/lukebeach/.mempalace/palace",
+  "collection_name": "mempalace_drawers",
+  "topic_wings": ["thrive", "thrive-frontend", "guider"],
+  "hall_keywords": {
+    "hall_facts": ["pattern", "architecture", "convention", "standard", "rule", "always", "never", "must"],
+    "hall_discoveries": ["found", "realized", "turns out", "discovered", "TIL", "learned", "actually"],
+    "hall_advice": ["should", "recommend", "avoid", "prefer", "better", "instead", "don't"],
+    "hall_events": ["deployed", "released", "migrated", "broke", "fixed", "shipped", "incident"],
+    "hall_preferences": ["prefer", "like", "dislike", "want", "style", "approach"]
+  }
+}
