@@ -1,0 +1,15 @@
+# Palace data — too large, not for git
+mempalace/palace/
+mempalace/hook_state/
+mempalace/knowledge_graph.sqlite3
+
+# Per-machine config
+config/paths.sh
+*.local
+
+# OS cruft
+.DS_Store
+._.DS_Store
+
+# Pre-install backups created during install
+*.pre-install-backup
