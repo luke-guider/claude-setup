@@ -1,0 +1,13 @@
+{
+  "SessionEnd": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/claude-setup/mempalace/backup/backup-palace.sh > /dev/null 2>&1 &",
+          "timeout": 5000
+        }
+      ]
+    }
+  ]
+}
