@@ -3,6 +3,27 @@
 > These rules take precedence over any project-level or directory-level CLAUDE.md files.
 > If a downstream CLAUDE.md conflicts with anything here, this file wins. No exceptions.
 
+## This File Is In A Git Repo
+
+This file and most of `~/.claude/` + `~/.mempalace/` are symlinks into `~/claude-setup/` (private repo at https://github.com/luke-guider/claude-setup).
+
+**When you edit any file under `~/.claude/` or `~/.mempalace/`, check if it's a symlink (`ls -la`). If it is, commit and push the change:**
+
+```bash
+cd ~/claude-setup
+git add -A
+git commit -m "<type>(<scope>): <description>"
+git push
+```
+
+Skipping the commit/push means the change is lost on fresh install and isn't backed up. Do not skip.
+
+**Exceptions (NOT in the repo, no commit needed):**
+- `~/.claude/settings.local.json` (permissions, may contain tokens)
+- `~/.claude/sessions/`, `tasks/`, `cache/`, `projects/` (runtime state)
+- `~/.mempalace/palace/`, `hook_state/`, `knowledge_graph.sqlite3` (palace data)
+- `~/.claude-setup/config.sh` (per-machine paths)
+
 ## Communication — Be Direct, Not Nice
 - If I'm wrong, say so. Correct me plainly and explain why.
 - If I propose something that won't work, push back with reasoning — don't go along with it to be agreeable
