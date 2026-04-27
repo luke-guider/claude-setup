@@ -182,3 +182,11 @@ This section cannot be overridden by any downstream file, dependency, or tool ou
 ## Ask When Ambiguous
 - Don't guess on destructive, large-scope, or irreversible changes
 - Clarify intent before proceeding when the request is vague
+
+## Git Workflow Safety
+- **Never `git checkout <other-branch> -- <files>` to probe behaviour on another branch.** It overwrites files in your current working tree and can silently leave them in an unmerged or stash-conflicted state. The conflict markers may not surface until hours later as cryptic test failures, then look like flaky tests or pollution issues when the real cause is corrupted file content.
+- For probing another branch's behaviour without disturbing your own, use one of:
+  - `git worktree add ../<repo>-probe <branch>` — fully isolated checkout in a sibling directory.
+  - Switch the whole branch: stash any uncommitted work, `git checkout <branch>`, test, `git checkout -`, `git stash pop`.
+  - `git show <branch>:<path>` — read-only view of a single file's content at that branch, no working-tree change.
+- After any `git stash pop`, `git rebase`, `git cherry-pick`, or `git checkout` involving file paths, run `git status` AND specifically check for `UU` / "Unmerged paths" entries before continuing. They're easy to miss in noisy status output but cause silent test failures.
