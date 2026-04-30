@@ -50,5 +50,6 @@
     "deploy-on-aws@claude-plugins-official": true,
     "aws-serverless@claude-plugins-official": true,
     "sanity-plugin@claude-plugins-official": true
-  }
+  },
+  "theme": "light"
 }
