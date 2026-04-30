@@ -70,8 +70,7 @@ MCP (Model Context Protocol) servers provide tool access to external services. S
 | **AWS Serverless** | Plugin-bundled | AWS credentials via local profile/SSO |
 | **Deploy on AWS** | Plugin-bundled | AWS credentials via local profile/SSO |
 | **AWS Pricing** | Plugin-bundled | AWS credentials via local profile/SSO |
-| **Thrive (Prod/Staging/Sandbox/Tribe/Cheddar)** | Personal MCP | OAuth via Thrive |
-| **Trumpet** | Downloaded | OAuth |
+| **Trumpet** | Downloaded | *(Status: installed but not active — purpose TBD)* |
 
 > **Pattern:** Personal MCPs (MemPalace, Thrive clients) are installed from local sources and are not in the public plugin catalog. Built-in plugin MCPs (AWS, Slack, Atlassian) are bundled with their parent plugin.
 
@@ -143,10 +142,8 @@ All self-authored. Source: this repo at `claude/skills/`. Installation via symli
 | Skill | Trigger | Use |
 |---|---|---|
 | **backup-palace** | "backup", "eod" | Rsync mempalace to local backup share. Reads `BACKUP_SHARE` from `config.sh`. |
-| **deploy-azure-function** | CI deploy fails with unpublished `@guider-global/*` | Uses Verdaccio to publish locally, then deploys Azure Function manually. |
 | **eod-summary** | "end of day", "eod" | Scans recent sessions, produces markdown handoff to clipboard. |
 | **review** | "review code", "review this branch" | Runs gitleaks, ESLint, Prettier, CodeRabbit, parallel agents; posts inline PR comments. |
-| **thrive-code** | "run quality checks", "check my code" | Prettier + ESLint + Jest + Cypress; reads domain fragments first. |
 
 ### Skill Pattern
 
@@ -280,6 +277,4 @@ If you want to build something similar, here is the ordered checklist an agent c
 - `mempalace/palace/` data — ~2 GB, backed up separately
 - Plugin installation instructions — installed via Claude Code UI or `settings.json` restoration
 
-For teammates who need the full private context: clone `claude-setup`, run `install.sh`, and work from there.
-
-For external readers: the **pattern** above is the complete gist.
+The **pattern** above is the complete gist.
