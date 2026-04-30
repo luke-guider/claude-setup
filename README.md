@@ -36,4 +36,5 @@ Open Claude Code in this repo directory and say "install this setup". Claude rea
 - `docs/installation.md` — detailed install steps
 - `docs/architecture.md` — how the three-layer context system works
 - `docs/backup-restore.md` — palace backup/restore flows
+- `docs/setup-reference.md` — public overview of the full setup (plugins, MCPs, skills, CCO)
 - `docs/adding-fragments.md` — extending the fragment library

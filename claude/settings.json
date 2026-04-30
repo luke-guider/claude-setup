@@ -51,5 +51,6 @@
     "aws-serverless@claude-plugins-official": true,
     "sanity-plugin@claude-plugins-official": true
   },
-  "theme": "light"
+  "theme": "light",
+  "skipDangerousModePermissionPrompt": true
 }
