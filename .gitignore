@@ -13,3 +13,6 @@ config/paths.sh
 
 # Pre-install backups created during install
 *.pre-install-backup
+
+# Business logic / internal architecture (not for public)
+claude/context/
