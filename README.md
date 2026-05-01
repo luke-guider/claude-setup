@@ -27,10 +27,6 @@ cd ~/claude-setup
 - Plugin installations (restored by Claude Code from settings.json)
 - Runtime state (sessions, cache, tasks)
 
-## Alternative Install via Claude
-
-Open Claude Code in this repo directory and say "install this setup". Claude reads `CLAUDE.md` and performs the install interactively.
-
 ## See Also
 
 - `docs/installation.md` — detailed install steps
