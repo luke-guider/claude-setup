@@ -49,8 +49,9 @@
     "microsoft-docs@claude-plugins-official": true,
     "deploy-on-aws@claude-plugins-official": true,
     "aws-serverless@claude-plugins-official": true,
-    "sanity-plugin@claude-plugins-official": true
+    "sanity-plugin@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true
   },
-  "theme": "light",
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "light"
 }

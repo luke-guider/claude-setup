@@ -145,6 +145,8 @@ All self-authored. Source: this repo at `claude/skills/`. Installation via symli
 | **eod-summary** | "end of day", "eod" | Scans recent sessions, produces markdown handoff to clipboard. |
 | **review** | "review code", "review this branch" | Runs gitleaks, ESLint, Prettier, CodeRabbit, parallel agents; posts inline PR comments. |
 
+> **Note:** `thrive-code` and `deploy-azure-function` skills were removed. They were org-specific and not useful for external readers.
+
 ### Skill Pattern
 
 Every custom skill follows this structure:

@@ -156,12 +156,39 @@ make_symlink "$REPO_DIR/claude/hooks/session-context.sh" "$HOME/.claude/hooks/se
 make_symlink "$REPO_DIR/claude/hooks/pre-commit-checks.sh" "$HOME/.claude/hooks/pre-commit-checks.sh"
 make_symlink "$REPO_DIR/claude/hooks/pre-push-checks.sh" "$HOME/.claude/hooks/pre-push-checks.sh"
 
-# Claude context (symlink the whole thrive/ and guider/ directories)
-backup_if_exists "$HOME/.claude/context/thrive"
-backup_if_exists "$HOME/.claude/context/guider"
-ln -s "$REPO_DIR/claude/context/thrive" "$HOME/.claude/context/thrive"
-ln -s "$REPO_DIR/claude/context/guider" "$HOME/.claude/context/guider"
-echo "  $HOME/.claude/context/{thrive,guider} → $REPO_DIR/claude/context/..."
+# ---- Claude context: symlink if present, otherwise copy templates and abort ----
+
+CONTEXT_DIR="$REPO_DIR/claude/context"
+CONTEXT_TEMPLATE_DIR="$REPO_DIR/claude/context-templates"
+
+if [ -d "$CONTEXT_DIR" ] && [ "$(ls -A "$CONTEXT_DIR" 2>/dev/null)" ]; then
+  # Private context exists in the repo (full private clone)
+  backup_if_exists "$HOME/.claude/context"
+  make_symlink "$CONTEXT_DIR" "$HOME/.claude/context"
+  echo "  $HOME/.claude/context → $CONTEXT_DIR (symlinked)"
+else
+  # Public clone — no private context. Copy templates.
+  echo ""
+  echo "WARNING: claude/context/ not found in this repo."
+  echo "This is expected for the public version of claude-setup."
+  echo ""
+  echo "Copying context templates from $CONTEXT_TEMPLATE_DIR..."
+
+  backup_if_exists "$HOME/.claude/context"
+  mkdir -p "$HOME/.claude/context"
+  cp -R "$CONTEXT_TEMPLATE_DIR"/* "$HOME/.claude/context/"
+  echo "  Copied templates to $HOME/.claude/context/"
+  echo ""
+  echo "=== ACTION REQUIRED ==="
+  echo "Edit the copied template files in ~/.claude/context/ with your own"
+  echo "domain-specific content. Rename workspace-a/workspace-b to your"
+  echo "actual workspace names. Then re-run:"
+  echo ""
+  echo "  ./install.sh --update"
+  echo ""
+  echo "Install aborted until context templates are populated."
+  exit 1
+fi
 
 # Claude skills (symlink individual skill dirs — easier to add new ones)
 for skill_dir in "$REPO_DIR/claude/skills"/*; do
