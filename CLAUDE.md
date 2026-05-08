@@ -4,7 +4,7 @@ This repo is Luke's Claude Code + mempalace configuration. When the user clones 
 
 ## Quick Install
 
-If the user just wants the full install, execute:
+This repo is now public. The full install installs symlinks for generic files (hooks, skills, claude config) and copies templates for per-user mempalace config (identity, wings, mining scripts). If the user just wants the full install, execute:
 
 ```bash
 ./install.sh
@@ -20,8 +20,8 @@ If the user wants only parts of the setup, use these recipes. Always create syml
 
 ```bash
 mkdir -p ~/.claude/context
-ln -sfn "$PWD/claude/context/thrive" ~/.claude/context/thrive
-ln -sfn "$PWD/claude/context/guider" ~/.claude/context/guider
+ln -sfn "$PWD/claude/context/workspace-a" ~/.claude/context/workspace-a
+ln -sfn "$PWD/claude/context/workspace-b" ~/.claude/context/workspace-b
 ```
 
 ### Just Hooks
@@ -47,21 +47,30 @@ done
 
 ### Just Mempalace Config
 
+Per-user config (identity, wings, mining scripts) lives as real files under `~/.mempalace/` rather than symlinked into the public repo — the repo only ships `.example.*` templates.
+
 ```bash
 mkdir -p ~/.mempalace/hooks
-ln -sf "$PWD/mempalace/config.json" ~/.mempalace/config.json
-ln -sf "$PWD/mempalace/wing_config.json" ~/.mempalace/wing_config.json
-ln -sf "$PWD/mempalace/identity.txt" ~/.mempalace/identity.txt
+
+# Copy templates if not already present, then edit with workspace details
+[ -e ~/.mempalace/identity.txt ]     || cp "$PWD/mempalace/identity.example.txt"     ~/.mempalace/identity.txt
+[ -e ~/.mempalace/config.json ]      || cp "$PWD/mempalace/config.example.json"      ~/.mempalace/config.json
+[ -e ~/.mempalace/wing_config.json ] || cp "$PWD/mempalace/wing_config.example.json" ~/.mempalace/wing_config.json
+
+# Hooks: symlinked (generic, no workspace data)
 ln -sf "$PWD/mempalace/hooks/mempal_save_hook.sh" ~/.mempalace/hooks/
 ln -sf "$PWD/mempalace/hooks/mempal_precompact_hook.sh" ~/.mempalace/hooks/
+
+# Mining template: copy starter, then duplicate per wing and edit (e.g. mine-<wing>.sh)
+[ -e ~/.mempalace/mine-workspace.sh ] || cp "$PWD/mempalace/mine/mine-workspace.example.sh" ~/.mempalace/mine-workspace.sh
 ```
 
-Then patch `palace_path` in `mempalace/config.json` to match `$HOME/.mempalace/palace`:
+Then patch `palace_path` in the LIVE `~/.mempalace/config.json` to match `$HOME/.mempalace/palace`:
 
 ```bash
 python3 -c "
 import json, os
-p = '$PWD/mempalace/config.json'
+p = os.path.expanduser('~/.mempalace/config.json')
 cfg = json.load(open(p))
 cfg['palace_path'] = os.path.expanduser('~/.mempalace/palace')
 json.dump(cfg, open(p, 'w'), indent=2)
@@ -94,10 +103,11 @@ If they have a specific snapshot tarball:
 
 ## Important Rules
 
-- ALWAYS use symlinks, NEVER copy files
+- Symlink generic files (hooks, skills, claude config) so edits flow back to the repo
+- COPY (don't symlink) per-user mempalace config from `.example.*` templates — these contain workspace-specific names/identity that must not flow into the public repo
 - If a target path exists and isn't already a symlink to this repo, BACK IT UP FIRST to `~/.claude/backup-pre-install/<timestamp>/`
 - Make all `.sh` files executable after symlinking
-- Patch `mempalace/config.json` palace_path to match `$HOME` on this machine
+- Patch `palace_path` in the LIVE `~/.mempalace/config.json` (NOT the repo file) to match `$HOME` on this machine
 - Don't modify `~/.claude/settings.json` automatically — show the user the `templates/session-end-hook.json` snippet and let them merge it manually
 
 ## Verification
@@ -110,7 +120,7 @@ ls -la ~/.claude/hooks/
 bash -n ~/.claude/hooks/session-context.sh
 
 # Context fragments present
-ls ~/.claude/context/thrive/domains/
+ls ~/.claude/context/<workspace>/domains/
 
 # Skills loaded
 ls ~/.claude/skills/

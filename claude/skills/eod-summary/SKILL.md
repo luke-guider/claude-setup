@@ -18,7 +18,7 @@ find ~/.claude/projects -maxdepth 2 -name "*.jsonl" ! -path "*/subagents/*" -mmi
 ```
 
 For each file, extract:
-- **Project name** from the path (the segment after `projects/`, decoded from the path-encoded format e.g. `-Users-lukebeach-REPOS-Thrive-frontend` → `Thrive-frontend`)
+- **Project name** from the path (the segment after `projects/`, decoded from the path-encoded format e.g. `-Users-<name>-REPOS-<workspace>-frontend` → `<workspace>-frontend`)
 - **Session ID** from the filename (strip `.jsonl`)
 - **Last modified time** via `stat`
 - **Working directory** from the first line of the jsonl (`cwd` field) — this is the actual path the session was running in

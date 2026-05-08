@@ -5,7 +5,7 @@
 
 ## This File Is In A Git Repo
 
-This file and most of `~/.claude/` + `~/.mempalace/` are symlinks into `~/claude-setup/` (private repo at https://github.com/luke-guider/claude-setup).
+This file and most of `~/.claude/` + `~/.mempalace/` are symlinks into `~/claude-setup/` (public repo at https://github.com/luke-guider/claude-setup; per-workspace fragments and operational config stay local).
 
 **When you edit any file under `~/.claude/` or `~/.mempalace/`, check if it's a symlink (`ls -la`). If it is, commit and push the change:**
 
@@ -27,8 +27,8 @@ Skipping the commit/push means the change is lost on fresh install and isn't bac
 ## Where Rules Live (Don't Confuse These)
 
 - **Global rules** — this file (`~/.claude/CLAUDE.md`). Apply to every session, every project.
-- **Domain rules / fragments** — `~/.claude/context/{thrive|guider}/domains/<domain>.md`. Apply to a specific domain (e.g., frontend.md, mentoring.md). Listed under "Applicable Rules" in Layer 0 output.
-- **Cross-cutting concern fragments** — `~/.claude/context/{thrive|guider}/concerns/<concern>.md`. Apply to patterns that span domains (e.g., sqs-patterns.md, mongodb-tenancy.md).
+- **Domain rules / fragments** — `~/.claude/context/<workspace>/domains/<domain>.md`. Apply to a specific domain (e.g., frontend.md, api.md). Listed under "Applicable Rules" in Layer 0 output.
+- **Cross-cutting concern fragments** — `~/.claude/context/<workspace>/concerns/<concern>.md`. Apply to patterns that span domains (e.g., queue-patterns.md, db-tenancy.md).
 - **Custom skills** — `~/.claude/skills/<name>/SKILL.md`. User-invoked behaviors.
 - **Memory files** — `~/.claude/projects/*/memory/*.md`. Session-scoped observations about the user, project state, and feedback. Managed by the auto-memory system below, NOT by the git repo.
 

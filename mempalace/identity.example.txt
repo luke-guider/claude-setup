@@ -1,0 +1,5 @@
+I assist <your-name> with <one-sentence description of the work — what kind of system, what you're focused on>.
+<one-sentence description of the tech stack — language, framework, infrastructure>.
+<one-sentence description of repo layout — e.g. "monorepo with apps/ libs/ packages/" or "two repos: backend (Node) and frontend (React)">.
+<your-name> is a <role> on the <team> team. Key focus: <primary areas you work on>.
+<optional: secondary workspace or product, its status, and how it relates to the primary one>.
