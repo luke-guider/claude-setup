@@ -197,26 +197,39 @@ for skill_dir in "$REPO_DIR/claude/skills"/*; do
   make_symlink "$skill_dir" "$HOME/.claude/skills/$name"
 done
 
-# Mempalace config files
-make_symlink "$REPO_DIR/mempalace/config.json" "$HOME/.mempalace/config.json"
-make_symlink "$REPO_DIR/mempalace/wing_config.json" "$HOME/.mempalace/wing_config.json"
-make_symlink "$REPO_DIR/mempalace/identity.txt" "$HOME/.mempalace/identity.txt"
+# Mempalace per-user config: copy .example templates if not already present.
+# These files contain workspace-specific names/identity, so they live as real files
+# under ~/.mempalace/ rather than symlinks back into the public repo.
 
-# Mempalace hooks
+copy_if_missing() {
+  local src="$1"
+  local dst="$2"
+  if [ -e "$dst" ] && [ ! -L "$dst" ]; then
+    echo "  Already present (kept): $dst"
+  else
+    [ -L "$dst" ] && rm "$dst"
+    cp "$src" "$dst"
+    echo "  Copied template: $src → $dst (edit with your details)"
+  fi
+}
+
+copy_if_missing "$REPO_DIR/mempalace/identity.example.txt"        "$HOME/.mempalace/identity.txt"
+copy_if_missing "$REPO_DIR/mempalace/config.example.json"         "$HOME/.mempalace/config.json"
+copy_if_missing "$REPO_DIR/mempalace/wing_config.example.json"    "$HOME/.mempalace/wing_config.json"
+
+# Mempalace hooks (still symlinked — generic, no workspace info)
 make_symlink "$REPO_DIR/mempalace/hooks/mempal_save_hook.sh" "$HOME/.mempalace/hooks/mempal_save_hook.sh"
 make_symlink "$REPO_DIR/mempalace/hooks/mempal_precompact_hook.sh" "$HOME/.mempalace/hooks/mempal_precompact_hook.sh"
 
-# Mempalace mining scripts (symlink into ~/.mempalace/ root for backward compat with existing launchers)
-make_symlink "$REPO_DIR/mempalace/mine/mine-all.sh" "$HOME/.mempalace/mine-all.sh"
-make_symlink "$REPO_DIR/mempalace/mine/mine-frontend.sh" "$HOME/.mempalace/mine-frontend.sh"
-make_symlink "$REPO_DIR/mempalace/mine/mine-guider.sh" "$HOME/.mempalace/mine-guider.sh"
+# Mempalace mining script template — copy as starter; user renames + edits per wing.
+copy_if_missing "$REPO_DIR/mempalace/mine/mine-workspace.example.sh" "$HOME/.mempalace/mine-workspace.sh"
 
-# ---- Fix palace_path in config.json for this machine ----
+# ---- Fix palace_path in the LIVE config.json for this machine ----
 
 echo ""
 echo "Patching mempalace palace_path for this user..."
 
-MEMPALACE_CONFIG="$REPO_DIR/mempalace/config.json"
+MEMPALACE_CONFIG="$HOME/.mempalace/config.json"
 EXPECTED_PATH="$HOME/.mempalace/palace"
 CURRENT_PATH=$(python3 -c "import json; print(json.load(open('$MEMPALACE_CONFIG'))['palace_path'])")
 

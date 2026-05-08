@@ -16,3 +16,10 @@ config/paths.sh
 
 # Business logic / internal architecture (not for public)
 claude/context/
+
+# Per-user mempalace config — live files live in ~/.mempalace/, repo only ships .example.* templates
+mempalace/identity.txt
+mempalace/config.json
+mempalace/wing_config.json
+mempalace/mine/*.sh
+!mempalace/mine/*.example.sh

@@ -1,0 +1,17 @@
+{
+  "default_wing": "workspace-a",
+  "wings": {
+    "workspace-a": {
+      "type": "project",
+      "keywords": ["<keywords that identify content belonging to this wing — file names, framework names, service names, etc.>"]
+    },
+    "workspace-a-frontend": {
+      "type": "project",
+      "keywords": ["<frontend-specific keywords — react, components, ui kit names, etc.>"]
+    },
+    "workspace-b": {
+      "type": "project",
+      "keywords": ["<keywords for a second workspace, if applicable>"]
+    }
+  }
+}
