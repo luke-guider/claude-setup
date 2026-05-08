@@ -20,8 +20,8 @@ If the user wants only parts of the setup, use these recipes. Always create syml
 
 ```bash
 mkdir -p ~/.claude/context
-ln -sfn "$PWD/claude/context/thrive" ~/.claude/context/thrive
-ln -sfn "$PWD/claude/context/guider" ~/.claude/context/guider
+ln -sfn "$PWD/claude/context/workspace-a" ~/.claude/context/workspace-a
+ln -sfn "$PWD/claude/context/workspace-b" ~/.claude/context/workspace-b
 ```
 
 ### Just Hooks
@@ -110,7 +110,7 @@ ls -la ~/.claude/hooks/
 bash -n ~/.claude/hooks/session-context.sh
 
 # Context fragments present
-ls ~/.claude/context/thrive/domains/
+ls ~/.claude/context/<workspace>/domains/
 
 # Skills loaded
 ls ~/.claude/skills/

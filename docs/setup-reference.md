@@ -1,6 +1,6 @@
 # Claude Code Setup Reference
 
-A practical overview of the Claude Code configuration used across Guider/Thrive projects. Designed to be: (a) a teammate's quick-reference, and (b) ingestible by an agent tool as a pattern for building a similar setup elsewhere.
+A practical overview of a Claude Code configuration used across multiple workspaces. Designed to be: (a) a teammate's quick-reference, and (b) ingestible by an agent tool as a pattern for building a similar setup elsewhere.
 
 ---
 
@@ -14,7 +14,7 @@ This is a **progressive disclosure** setup:
 - **CCO** (Claude Code Orchestrator) routes work between free/cheap models and PRO based on task complexity
 - **Mempalace** provides persistent agent memory (semantic search, knowledge graph, timeline) across sessions
 
-The repo is public. Context fragments containing Guider/Thrive business logic are excluded.
+The repo is public. Context fragments containing per-workspace business logic are excluded.
 
 ---
 
@@ -72,7 +72,7 @@ MCP (Model Context Protocol) servers provide tool access to external services. S
 | **AWS Pricing** | Plugin-bundled | AWS credentials via local profile/SSO |
 | **Trumpet** | Downloaded | *(Status: installed but not active — purpose TBD)* |
 
-> **Pattern:** Personal MCPs (MemPalace, Thrive clients) are installed from local sources and are not in the public plugin catalog. Built-in plugin MCPs (AWS, Slack, Atlassian) are bundled with their parent plugin.
+> **Pattern:** Personal MCPs (e.g., MemPalace, internal API clients) are installed from local sources and are not in the public plugin catalog. Built-in plugin MCPs (AWS, Slack, Atlassian) are bundled with their parent plugin.
 
 ---
 
@@ -145,7 +145,7 @@ All self-authored. Source: this repo at `claude/skills/`. Installation via symli
 | **eod-summary** | "end of day", "eod" | Scans recent sessions, produces markdown handoff to clipboard. |
 | **review** | "review code", "review this branch" | Runs gitleaks, ESLint, Prettier, CodeRabbit, parallel agents; posts inline PR comments. |
 
-> **Note:** `thrive-code` and `deploy-azure-function` skills were removed. They were org-specific and not useful for external readers.
+> **Note:** Workspace-specific skills (org-internal codegen, infra-specific deployers) are kept out of this public repo.
 
 ### Skill Pattern
 

@@ -12,26 +12,26 @@ Context fragments are the Layer 1 of the progressive disclosure system. Each fra
 
 ### Domain fragment
 
-File: `claude/context/{thrive|guider}/domains/<domain>.md`
+File: `claude/context/<workspace>/domains/<domain>.md`
 
-Use when the pattern applies to a specific domain (e.g., all mentoring code, all frontend code).
+Use when the pattern applies to a specific domain (e.g., all backend code, all frontend code).
 
 ### Concern fragment
 
-File: `claude/context/{thrive|guider}/concerns/<concern>.md`
+File: `claude/context/<workspace>/concerns/<concern>.md`
 
-Use for cross-cutting patterns that apply to multiple domains (e.g., SQS usage, MongoDB tenancy, error handling).
+Use for cross-cutting patterns that apply to multiple domains (e.g., queue usage, DB tenancy, error handling).
 
 ## Fragment Format
 
 ```markdown
 ---
-domains: [mentoring]
-services: [mentorship-core, mentorship-core-pipelines]
-concerns: [sqs, mongodb, dual-cluster]
+domains: [<domain>]
+services: [<service-a>, <service-b>]
+concerns: [<concern-a>, <concern-b>]
 ---
 
-# Mentoring Domain
+# <Domain> Domain
 
 ## Specific Pattern 1
 
@@ -75,4 +75,4 @@ If it doesn't appear, check:
 1. Frontmatter `domains:` tag matches what `session-context.sh` returns for that service
 2. For concern fragments: the `applies_to:` list includes the domain
 
-The hook's domain detection logic is in `claude/hooks/session-context.sh` — update the mapping functions (`service_to_domain_thrive`) if you add services to an existing domain or introduce new domains.
+The hook's domain detection logic is in `claude/hooks/session-context.sh` — update the mapping functions if you add services to an existing domain or introduce new domains.

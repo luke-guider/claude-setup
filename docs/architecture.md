@@ -9,14 +9,14 @@ This setup implements progressive disclosure — context loads based on what the
 The `session-context.sh` hook (in `~/.claude/hooks/`, symlinked from repo) runs on SessionStart. It:
 
 1. Reads CWD and git branch
-2. Detects workspace (Thrive vs Guider) and specific service
+2. Detects which workspace and specific service from the CWD path
 3. Resolves dependencies from `docs/service-graph.toml`
 4. Outputs a block with:
    - Working service name and domain
    - Mempalace wing/room
    - Connected services (from graph)
    - Applicable fragment file paths (NOT their content)
-   - Cross-project references (Thrive↔Guider)
+   - Cross-workspace references (when one workspace depends on another)
 
 Fragment paths are listed but NOT loaded at this stage.
 
@@ -35,27 +35,20 @@ For implementation specifics (exact schemas, function signatures, prior patterns
 
 ## Fragment Library
 
-### Thrive
+Each workspace gets its own fragment tree under `claude/context/<workspace>/`:
 
-10 domain fragments covering: mentoring, content, user, gateway, ai, tenant, communication, goals, frontend, infra.
+- `domains/` — one markdown file per business domain (e.g., `frontend.md`, `api.md`, `auth.md`). Captures the patterns, conventions, and gotchas specific to that domain.
+- `concerns/` — one file per cross-cutting topic that spans domains (e.g., `queue-patterns.md`, `db-tenancy.md`, `error-handling.md`).
 
-6 concern fragments covering: sqs-patterns, mongodb-tenancy, auth-middleware, error-handling, testing-patterns, graphql-codegen.
-
-### Guider
-
-5 domain fragments covering: admin, api, bot, front-end, sanity.
-
-3 concern fragments covering: rush-workflows, shared-packages, azure-functions.
+Fragment count scales with the workspace — typically 5–10 domain fragments and 3–6 concern fragments per workspace. Fragments stay small (500–2000 bytes) and link out to mempalace for deep detail.
 
 ## Service Graphs
 
-`docs/service-graph.toml` in the Thrive repo enumerates 92 services with their dependencies and mempalace locations. A similar graph exists for the Guider Rush monorepo (59 projects).
-
-The hook reads these graphs to answer "what depends on content-core?" at session start.
+A `docs/service-graph.toml` (or equivalent) inside each workspace repo enumerates services with their dependencies and mempalace locations. The hook reads this graph to answer "what depends on service X?" at session start.
 
 ## MemPalace Integration
 
-The palace stores verbatim code chunks from all three wings (thrive, thrive-frontend, guider). Layer 0 tells Claude the wing/room to use for scoped searches.
+The palace stores verbatim code chunks per workspace wing. Layer 0 tells Claude the wing/room to use for scoped searches.
 
 Mempalace MCP is registered at user level so it's available in every project.
 

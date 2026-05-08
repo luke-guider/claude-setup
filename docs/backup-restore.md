@@ -88,7 +88,7 @@ Prompts for confirmation before overwriting.
 python3 -m mempalace status
 ```
 
-Should show all wings with expected drawer counts (~90k frontend, ~1.5M guider, ~177k thrive).
+Should show all wings with expected drawer counts (counts vary by wing — compare against the last successful mining run).
 
 ## What's Excluded from Backup
 

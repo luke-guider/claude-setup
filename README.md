@@ -15,7 +15,7 @@ cd ~/claude-setup
 - Global `~/.claude/CLAUDE.md` rules
 - `session-context.sh` hook (Layer 0 progressive disclosure)
 - Pre-commit and pre-push quality gates
-- 24 context fragments for Thrive + Guider domains *(private, not in this repo)*
+- Context fragments for your workspace domains *(private, not in this repo)*
 - Custom skills (backup-palace, eod-summary, review)
 - Mempalace config, identity, wing map
 - Mempalace mining scripts and auto-save hooks
