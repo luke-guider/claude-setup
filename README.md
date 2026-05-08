@@ -27,6 +27,14 @@ cd ~/claude-setup
 - Plugin installations (restored by Claude Code from settings.json)
 - Runtime state (sessions, cache, tasks)
 
+## Drop-In Reference for AI Prompts
+
+For a one-pager describing this whole setup (plugins, MCPs, skills, CCO, hooks, conventions), pass this raw URL to any AI tool:
+
+```
+https://raw.githubusercontent.com/luke-guider/claude-setup/main/docs/setup-reference.md
+```
+
 ## See Also
 
 - `docs/installation.md` — detailed install steps
