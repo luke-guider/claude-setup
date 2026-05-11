@@ -48,9 +48,15 @@ A `docs/service-graph.toml` (or equivalent) inside each workspace repo enumerate
 
 ## MemPalace Integration
 
-The palace stores verbatim code chunks per workspace wing. Layer 0 tells Claude the wing/room to use for scoped searches.
+The palace is what makes Layer 2 work, and it's also the thing that carries context between sessions.
 
-Mempalace MCP is registered at user level so it's available in every project.
+- **Wings** partition the palace by workspace (one or more per workspace).
+- **Drawers** are individual saved memories — decisions, discoveries, code chunks, verbatim quotes — classified into halls (`facts`, `discoveries`, `advice`, `events`, `preferences`).
+- **The MemPalace MCP** is registered at user level so it's available in every session. Layer 0 sets the working wing so search at Layer 2 stays scoped.
+
+Two Claude Code hooks (`Stop` and `PreCompact`) live in `mempalace/hooks/` and force the AI to save drawers automatically — every N exchanges, and before any compaction. Without them the palace fills slowly and unevenly; with them every session leaves the palace richer for the next.
+
+For the full cross-session flow — terminology, the save loop, fragment lifecycle, and the drawer-vs-fragment split — see [`memory-flow.md`](memory-flow.md).
 
 ## Token Budget
 
