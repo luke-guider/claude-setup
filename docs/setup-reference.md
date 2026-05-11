@@ -66,7 +66,7 @@ MCP (Model Context Protocol) servers provide tool access to external services. S
 | **Slack** | Plugin-bundled | OAuth |
 | **Atlassian (Jira/Confluence)** | Plugin-bundled | OAuth |
 | **Microsoft Learn** | Plugin-bundled | None (public docs) |
-| **MemPalace** | Personal MCP | Local file access |
+| **MemPalace** | Personal MCP | Local file access — semantic memory keyed by wing/hall/closet, populated automatically by the Stop and PreCompact hooks. See `docs/memory-flow.md`. |
 | **AWS Serverless** | Plugin-bundled | AWS credentials via local profile/SSO |
 | **Deploy on AWS** | Plugin-bundled | AWS credentials via local profile/SSO |
 | **AWS Pricing** | Plugin-bundled | AWS credentials via local profile/SSO |
@@ -176,8 +176,11 @@ Hooks fire automatically at Claude Code lifecycle events. Configured in `setting
 | **SessionStart** | `session-context.sh` | Custom — resolves workspace, service, branch, and applicable domain fragments |
 | **PreToolUse (git commit)** | `pre-commit-checks.sh` | Custom — runs gitleaks, validates commit message format |
 | **PreToolUse (git push)** | `pre-push-checks.sh` | Custom — runs tests, blocks push if checks fail |
+| **Stop** | `mempalace/hooks/mempal_save_hook.sh` | Custom — every N exchanges, blocks the AI from stopping until it saves drawers + diary to mempalace. Wing/hall/closet classification done by the AI. Install snippet in the script header. |
+| **PreCompact** | `mempalace/hooks/mempal_precompact_hook.sh` | Custom — always blocks before compaction so detail isn't lost. Install snippet in the script header. |
 
-> **Pattern:** SessionStart hooks live at `<repo>/claude/hooks/`. They are symlinked to `~/.claude/hooks/` via `install.sh`. The hook is a bash script with a 5000ms timeout — must be fast or it silently fails.
+> **Pattern:** Generic hooks (`session-context.sh`, pre-commit, pre-push) are symlinked into `~/.claude/hooks/` by `install.sh`. The mempalace Stop/PreCompact hooks register **per-machine** in `~/.claude/settings.local.json` with absolute paths — `install.sh` does not auto-register them because their wiring is local. See the install comments at the top of each hook script.
+> SessionStart timeout is ~5000ms; mempalace hooks default to 30s because they wait for the AI to finish saving.
 
 ---
 

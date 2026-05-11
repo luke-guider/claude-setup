@@ -2,11 +2,29 @@
 
 Context fragments are the Layer 1 of the progressive disclosure system. Each fragment is a small markdown file with frontmatter tags and domain-specific patterns.
 
+For the larger picture — how fragments sit alongside mempalace drawers and how memory flows between sessions — read [`memory-flow.md`](memory-flow.md) first.
+
+## Drawer vs Fragment
+
+The save hooks (see `memory-flow.md`) drop **drawers** into mempalace constantly. Fragments are the small subset of those learnings that earn promotion to permanent, auto-loaded rules.
+
+- **Drawer** — captured mid-session, may or may not generalize, semantic-searchable.
+- **Fragment** — a durable rule for a workspace domain or concern. Read at Layer 1 every time the matching domain appears in CWD.
+
+Promote a drawer to a fragment when:
+
+- The pattern has shown up in multiple sessions (search the palace to confirm).
+- Re-discovering it would cost real time or risk a regression.
+- It's stable enough that you'd onboard a teammate with it.
+
+A drawer that fails any of those is fine to leave as a drawer — search will surface it when relevant.
+
 ## When to Add a Fragment
 
 - You've hit the same review feedback multiple times (e.g., frontend review rules)
 - You've learned a non-obvious pattern in a specific domain
 - You've onboarded a new team member and explained a pattern you realize isn't documented
+- You've promoted a recurring drawer (see above)
 
 ## Where to Put It
 
