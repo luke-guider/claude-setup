@@ -144,6 +144,7 @@ All self-authored. Source: this repo at `claude/skills/`. Installation via symli
 | **backup-palace** | "backup", "eod" | Rsync mempalace to local backup share. Reads `BACKUP_SHARE` from `config.sh`. |
 | **eod-summary** | "end of day", "eod" | Scans recent sessions, produces markdown handoff to clipboard. |
 | **review** | "review code", "review this branch" | Runs gitleaks, ESLint, Prettier, CodeRabbit, parallel agents; posts inline PR comments. |
+| **review-coderabbit** | "review coderabbit", "handle coderabbit", "process the CR review" | End-to-end CodeRabbit PR handling: fetches unresolved threads, weighs each against memory/workspace fragments/mempalace for cross-service impact, applies approved fixes, replies per-thread with a reason on declined ones, and resolves every addressed thread. |
 
 > **Note:** Workspace-specific skills (org-internal codegen, infra-specific deployers) are kept out of this public repo.
 

@@ -16,7 +16,7 @@ cd ~/claude-setup
 - `session-context.sh` hook (Layer 0 progressive disclosure)
 - Pre-commit and pre-push quality gates
 - Context fragments for your workspace domains *(private, not in this repo)*
-- Custom skills (backup-palace, eod-summary, review)
+- Custom skills (backup-palace, eod-summary, review, review-coderabbit)
 - Mempalace config, identity, wing map
 - Mempalace mining scripts and auto-save hooks
 - Palace backup scripts (rsync + tarball snapshots)
