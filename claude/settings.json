@@ -30,7 +30,6 @@
   "enabledPlugins": {
     "coderabbit@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
-    "github@claude-plugins-official": true,
     "feature-dev@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
@@ -49,9 +48,15 @@
     "microsoft-docs@claude-plugins-official": true,
     "deploy-on-aws@claude-plugins-official": true,
     "aws-serverless@claude-plugins-official": true,
-    "sanity-plugin@claude-plugins-official": true,
-    "vercel@claude-plugins-official": true
+    "vercel@claude-plugins-official": true,
+    "discord@claude-plugins-official": true
   },
   "skipDangerousModePermissionPrompt": true,
-  "theme": "light"
+  "theme": "light",
+  "mcpServers": {
+    "qa-bot": {
+      "command": "node",
+      "args": ["/Users/lukebeach/REPOS/personal/qa-bot/dist/bin/server.js"]
+    }
+  }
 }
