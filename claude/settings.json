@@ -52,11 +52,5 @@
     "discord@claude-plugins-official": true
   },
   "skipDangerousModePermissionPrompt": true,
-  "theme": "light",
-  "mcpServers": {
-    "qa-bot": {
-      "command": "node",
-      "args": ["/Users/lukebeach/REPOS/personal/qa-bot/dist/bin/server.js"]
-    }
-  }
+  "theme": "light"
 }
