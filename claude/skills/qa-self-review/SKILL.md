@@ -30,6 +30,47 @@ If any prerequisite fails, report exactly what's missing and stop. Don't work ar
 2. Group by surface: HTTP route, UI component, mobile screen, background job, config.
 3. Note which surfaces already have e2e coverage in the project's `tests/` dir and which don't.
 
+## Phase 1.5: Verify e2e framework readiness
+
+Before promising to test anything, confirm the target repo can actually run e2e. Detect which drivers are ready:
+
+- **Playwright** ready if `playwright.config.{ts,js,mts,mjs}` exists AND `@playwright/test` is in `package.json` deps/devDeps.
+- **Flutter integration_test** ready if `qa-bot.config.ts` sets `mobile.flutter.enabled: true` AND `<projectDir>/integration_test/` exists.
+- **Maestro** ready if `.maestro/` dir exists with at least one flow YAML.
+
+Match the diff's surfaces to required drivers:
+- Web routes / React/Vue/Svelte components / HTTP handlers → Playwright
+- Dart files under `mobile.flutter.projectDir` → Flutter
+- New `.maestro/*.yaml` flows or native mobile changes intended for Maestro coverage → Maestro
+
+If a required driver is missing, **ask the user before scaffolding** — present a menu:
+
+```
+Diff touches: <surfaces>
+Ready drivers: <list or "none">
+Missing for full coverage: <list>
+
+Options:
+  1. Scaffold Playwright minimum (adds @playwright/test, playwright.config.ts,
+     tests/e2e/.gitkeep, updates qa-bot.config.ts testDirs.e2e)
+  2. Scaffold Flutter integration_test minimum (adds <projectDir>/integration_test/,
+     sets mobile.flutter in qa-bot.config.ts)
+  3. Scaffold Maestro minimum (adds .maestro/ with example flow, updates qa-bot.config.ts)
+  4. Multiple of the above (specify)
+  5. Skip e2e for affected surfaces — those AC will be statused `skipped` with note
+     'no <driver> framework configured'
+
+Which?
+```
+
+On user yes:
+- Scaffold exactly the minimum needed — no extras, no opinionated examples beyond a smoke test.
+- After scaffolding, run a trivial smoke test (e.g. `npx playwright test --list` for Playwright) to confirm wiring before relying on it.
+- Stage the scaffold changes; commit only with user approval and only if the user wants the scaffold persisted.
+
+On user no:
+- Continue with the surfaces that are testable and mark the rest `skipped` with the framework-missing note. Be explicit about reduced coverage in the final summary.
+
 ## Phase 2: Recover intent
 
 The session has the *actual* intent. The ticket has the *claimed* intent. Both matter.

@@ -77,9 +77,40 @@ git checkout <headRefName>
 
 If `git status` shows uncommitted changes, stop and tell the user — don't trash their work.
 
+## Phase 5.5: Verify e2e framework readiness — NEVER scaffold someone else's PR
+
+Check what the PR's branch can run, using the same detection as qa-self-review's Phase 1.5 (Playwright / Flutter / Maestro).
+
+**Hard rule: do not scaffold a missing framework in someone else's PR.** It's outside the review's scope and pollutes their branch with infrastructure changes unrelated to the PR's intent.
+
+Branch on what's available:
+
+- **All required drivers ready** → proceed to the standard subagent dispatch in Phase 6.
+
+- **Some/all drivers missing, but the dev server is configured** (`qa-bot.config.ts` has a `devServer` entry) → fall back to **ad-hoc browser observation**:
+  - `qa_dev_start` the appropriate server.
+  - For each UI-related AC, drive `qa_browse_open` + `qa_browse_act` + `qa_browse_snapshot` to exercise the claim manually. Snapshots are captured as artifacts and bundled into the report.
+  - Status AC based on what the snapshots actually show — read them, don't just confirm they exist.
+  - In the final PR comment summary, EXPLICITLY include this caveat:
+    > Verified via ad-hoc browser observation; no asserting e2e tests ran because the
+    > repo lacks `<driver>` infrastructure. Confidence is lower than asserting tests
+    > would provide. Recommend the project adopt e2e tooling for future reviews.
+
+- **No `qa-bot.config.ts` OR no dev server config** → can't even run the app. Drop to **diff-only review**:
+  - Skip all e2e steps.
+  - Read every changed file and reason about correctness from the code alone.
+  - Status every AC `blocked` with note `not programmatically verifiable — repo has no QA infrastructure`.
+  - Still populate the bugs-found section from diff reading; that's still useful signal.
+  - In the PR comment, prominently flag the missing infrastructure as the top recommendation.
+
 ## Phase 6: Dispatch the QA subagent
 
-Dispatch an Agent (subagent_type: `general-purpose`):
+Adjust the brief based on the path chosen in Phase 5.5:
+- **All drivers ready** → use the standard brief below (asserting tests).
+- **Ad-hoc browser observation** → swap step 3 to use `qa_browse_*` instead of `qa_test_write`/`qa_test_run`; the subagent drives the browser and captures snapshots per AC; final statuses come from snapshot review, not test outcomes.
+- **Diff-only review** → skip the subagent entirely; do the analysis inline in this session.
+
+Standard brief (all drivers ready):
 
 ```
 You are a QA subagent. Validate PR #<NUM> on branch <BRANCH> in <TARGET-REPO-PATH>.
