@@ -47,7 +47,7 @@ Two-layer enforcement:
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│ package-gate.py                                                 │
+│ package_gate.py                                                 │
 │   - Resolves versions, queries OSV.dev + registry APIs          │
 │   - Checks age, vulns, provenance                               │
 │   - Honors allowlists, writes cache + bypass log                │
@@ -73,7 +73,7 @@ claude-setup/
 │   ├── settings.json              # MODIFIED: add PATH env, add install dispatch
 │   ├── hooks/
 │   │   ├── pre-install-checks.sh         # NEW: bash dispatcher
-│   │   ├── package-gate.py               # NEW: Python checker
+│   │   ├── package_gate.py               # NEW: Python checker
 │   │   ├── package-gate-allowlist.json   # NEW: per-package allowlist
 │   │   ├── vuln-allowlist.json           # NEW: per-CVE suppressions
 │   │   └── ignore-scripts-allowlist.json # NEW: packages that may run scripts
