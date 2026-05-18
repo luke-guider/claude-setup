@@ -87,14 +87,15 @@ Branch on what's available:
 
 - **All required drivers ready** → proceed to the standard subagent dispatch in Phase 6.
 
-- **Some/all drivers missing, but the dev server is configured** (`qa-bot.config.ts` has a `devServer` entry) → fall back to **ad-hoc browser observation**:
-  - `qa_dev_start` the appropriate server.
-  - For each UI-related AC, drive `qa_browse_open` + `qa_browse_act` + `qa_browse_snapshot` to exercise the claim manually. Snapshots are captured as artifacts and bundled into the report.
-  - Status AC based on what the snapshots actually show — read them, don't just confirm they exist.
-  - In the final PR comment summary, EXPLICITLY include this caveat:
-    > Verified via ad-hoc browser observation; no asserting e2e tests ran because the
-    > repo lacks `<driver>` infrastructure. Confidence is lower than asserting tests
-    > would provide. Recommend the project adopt e2e tooling for future reviews.
+- **Some/all drivers missing, but the dev server is configured** (`qa-bot.config.ts` has a `devServer` entry, or you can start a dev server some other way) → use `qa_scratch_run` to write **asserting** scratch tests:
+  - Start the dev server (`qa_dev_start` if in a project, or however the PR's setup requires).
+  - For each UI-related AC, write a Playwright spec asserting the specific behavior. Pass the full spec source to `qa_scratch_run` along with the dev server's baseURL.
+  - Each `qa_scratch_run` returns a `runId` you can pass to `qa_report_render` / `qa_pr_post_report` exactly like `qa_test_run` results.
+  - In the final PR comment summary, include this caveat (smaller than the old browser-observation caveat — scratch tests ARE asserting tests, just not persisted in the target repo):
+    > Verified via scratch e2e tests (qa_scratch_run); the PR's repo has no permanent
+    > Playwright setup. Recommend the project adopt e2e tooling so this coverage
+    > persists in the repo.
+  - **Do NOT** fall back to `qa_browse_*` snapshot observation here — `qa_scratch_run` provides asserting confidence and the snapshot path is now legacy.
 
 - **No `qa-bot.config.ts` OR no dev server config** → can't even run the app. Drop to **diff-only review**:
   - Skip all e2e steps.
@@ -107,7 +108,7 @@ Branch on what's available:
 
 Adjust the brief based on the path chosen in Phase 5.5:
 - **All drivers ready** → use the standard brief below (asserting tests).
-- **Ad-hoc browser observation** → swap step 3 to use `qa_browse_*` instead of `qa_test_write`/`qa_test_run`; the subagent drives the browser and captures snapshots per AC; final statuses come from snapshot review, not test outcomes.
+- **Scratch tests via `qa_scratch_run`** → swap steps 3 and 5: the subagent authors a Playwright spec per AC and passes the source to `qa_scratch_run` (with the dev server's baseURL) instead of `qa_test_write` + `qa_test_run`. Each call returns a `runId` that feeds `qa_report_render` / `qa_pr_post_report` the same way. Do NOT use `qa_browse_*` here — assertions only.
 - **Diff-only review** → skip the subagent entirely; do the analysis inline in this session.
 
 Standard brief (all drivers ready):
