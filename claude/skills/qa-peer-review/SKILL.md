@@ -19,7 +19,7 @@ You're validating work someone else did. The PR description is a *claim*, not a 
 
 - Target repo has `qa-bot.config.ts` at its root.
 - `gh auth status` shows access to the PR's repo.
-- 21 `qa_*` MCP tools available.
+- 22 `qa_*` MCP tools available.
 - Working tree in the target repo is clean — never checkout someone else's branch over dirty local work.
 
 If any prerequisite fails, report exactly what's missing and stop.
