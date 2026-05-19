@@ -87,7 +87,7 @@ Branch on what's available:
 
 - **All required drivers ready** → proceed to the standard subagent dispatch in Phase 6.
 
-- **Design-fidelity verification (additive — runs alongside any other path above):** if any AC mentions a Figma design or specifies "matches the spec at <figma URL>", verify visually:
+- **Design-fidelity verification (additive — combines with whichever execution path applies in this section):** if any AC mentions a Figma design or specifies "matches the spec at <figma URL>", verify visually:
   1. Use the figma plugin's `figma_get_screenshot(node_id)` (or `figma_get_design_context`) to fetch the design node as a PNG. Save to /tmp.
   2. Capture the live UI at the matching state — either via `qa_test_run` (if the project has Playwright) or `qa_scratch_run` (if not). Note the screenshot path.
   3. Call `qa_visual_diff(expectedPath, actualPath, runId, maxDiffPercent=2.0)`. The diff PNG lands in the run's artifacts dir.
@@ -117,6 +117,7 @@ Adjust the brief based on the path chosen in Phase 5.5:
 - **All drivers ready** → use the standard brief below (asserting tests).
 - **Scratch tests via `qa_scratch_run`** → swap steps 3 and 5: the subagent authors a Playwright spec per AC and passes the source to `qa_scratch_run` (with the dev server's baseURL) instead of `qa_test_write` + `qa_test_run`. Each call returns a `runId` that feeds `qa_report_render` / `qa_pr_post_report` the same way. Do NOT use `qa_browse_*` here — assertions only.
 - **Diff-only review** → skip the subagent entirely; do the analysis inline in this session.
+- **Design-fidelity ACs (in addition to whichever path above)** → append a step to the subagent brief: for each design-fidelity AC, fetch the Figma node via `figma_get_screenshot`, capture the live UI (via `qa_test_run` or `qa_scratch_run` per the path), and call `qa_visual_diff` with `runId` set. Status the AC from `result.status`; include `diffPercent` in the note.
 
 Standard brief (all drivers ready):
 
