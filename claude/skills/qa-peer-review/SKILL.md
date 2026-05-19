@@ -19,7 +19,7 @@ You're validating work someone else did. The PR description is a *claim*, not a 
 
 - Target repo has `qa-bot.config.ts` at its root.
 - `gh auth status` shows access to the PR's repo.
-- 22 `qa_*` MCP tools available.
+- 23 `qa_*` MCP tools available.
 - Working tree in the target repo is clean — never checkout someone else's branch over dirty local work.
 
 If any prerequisite fails, report exactly what's missing and stop.
@@ -86,6 +86,13 @@ Check what the PR's branch can run, using the same detection as qa-self-review's
 Branch on what's available:
 
 - **All required drivers ready** → proceed to the standard subagent dispatch in Phase 6.
+
+- **Design-fidelity verification (additive — runs alongside any other path above):** if any AC mentions a Figma design or specifies "matches the spec at <figma URL>", verify visually:
+  1. Use the figma plugin's `figma_get_screenshot(node_id)` (or `figma_get_design_context`) to fetch the design node as a PNG. Save to /tmp.
+  2. Capture the live UI at the matching state — either via `qa_test_run` (if the project has Playwright) or `qa_scratch_run` (if not). Note the screenshot path.
+  3. Call `qa_visual_diff(expectedPath, actualPath, runId, maxDiffPercent=2.0)`. The diff PNG lands in the run's artifacts dir.
+  4. Status the design-fidelity AC from `result.status` (`'passed'` / `'failed'`). Include `diffPercent` in the note.
+  5. If `SIZE_MISMATCH`: the Figma export scale didn't match the viewport. Retry with `figma_get_screenshot` at the right scale (typically `scale=2` for a 2× retina viewport).
 
 - **Some/all drivers missing, but the dev server is configured** (`qa-bot.config.ts` has a `devServer` entry, or you can start a dev server some other way) → use `qa_scratch_run` to write **asserting** scratch tests:
   - Start the dev server (`qa_dev_start` if in a project, or however the PR's setup requires).
